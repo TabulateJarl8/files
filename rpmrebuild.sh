@@ -582,8 +582,7 @@ else
 	ls -altr $TMPDIR_WORK
 fi
 
-exit 0
-#exit $st
+exit $st
 
 #####################################
 # BUILDROOT note.
