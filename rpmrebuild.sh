@@ -45,12 +45,7 @@ function SpecEdit
 	# ${VISUAL:-${EDITOR:-vi}} $File
 	sed -i -E "s/%dir %attr\(0755, root, root\) \"\/\"//" $File
 	sed -i -E "s/%dir %attr\(0755, root, root\) \"\/usr\/bin\"//" $File
-	AskYesNo "$WantContinue" || {
-		Aborted="yes"
-		export Aborted
-		Echo "Aborted."
-	        return 1
-	}
+	
 	return 0
 }
 ###############################################################################
