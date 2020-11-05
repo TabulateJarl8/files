@@ -3296,7 +3296,7 @@ echo -e "\npackage(){\n\n	# Extract package data\n	ar vx iicalc-\$pkgver.deb" >>
 if [[ $data_tar_check == data.tar.gz ]]; then
     echo "	tar xzf data.tar.gz -C \"\${pkgdir}\"" >> PKGBUILD
 elif [[ $data_tar_check == data.tar.xz ]]; then
-    echo -e "	tar xf data.tar.xz -C \"\${pkgdir}\"\n	rm debian-binary control.tar.xz data.tar.xz" >> PKGBUILD
+    echo -e "	tar xf data.tar.xz -C \"\${pkgdir}\"\n	rm debian-binary control.tar.xz data.tar.xz\nsed -i -E 's/debian/aur/' \${pkgdir}/usr/share/iicalc/config.ini" >> PKGBUILD
 elif [[ $data_tar_check == data.tar.bz2 ]]; then
     echo "	tar xf data.tar.bz2 -C \"\${pkgdir}\"" >> PKGBUILD
 elif [[ $data_tar_check == data.tar.lzma ]]; then
