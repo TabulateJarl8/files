@@ -3179,7 +3179,7 @@ if [[ $quiet == set  ]] || [[ $Quiet == set ]]; then
 	echo "# Maintainer: " >> PKGBUILD
 	echo "# Contributor: " >> PKGBUILD
 else
-	echo "# Maintainer: tabulatejarl8@gmail.com <TabulateJarl8>" >> PKGBUILD
+	echo -e "# Maintainer: tabulatejarl8@gmail.com <TabulateJarl8>\n# Maintainer: TurboWafflz <turbowafflz@gmail.com>" >> PKGBUILD
 	echo "# Contributor: " >> PKGBUILD
 fi
 if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]] && [[ $(ls -A usr/bin) ]]; then
