@@ -3179,12 +3179,12 @@ if [[ $quiet == set  ]] || [[ $Quiet == set ]]; then
 	echo "# Maintainer: " >> PKGBUILD
 	echo "# Contributor: " >> PKGBUILD
 else
-	echo "# Maintainer: $(grep '^packager =' .PKGINFO | gawk '{print $3}')" >> PKGBUILD
-	echo "# Contributor: $(grep '^packager =' .PKGINFO | gawk '{print $3}')" >> PKGBUILD
+	echo "# Maintainer: tabulatejarl8@gmail.com <TabulateJarl8>" >> PKGBUILD
+	echo "# Contributor: " >> PKGBUILD
 fi
 if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]] && [[ $(ls -A usr/bin) ]]; then
-	echo "$(grep '^pkgname =' .PKGINFO | sed s'/ //g')-bin" >> PKGBUILD
-# else
+	echo "$(grep '^pkgname =' .PKGINFO | sed s'/ //g')" >> PKGBUILD
+else
 	echo "$(grep '^pkgname =' .PKGINFO | sed s'/ //g')" >> PKGBUILD
 fi
 echo "$(grep '^pkgver =' .PKGINFO | sed -e s'/ //g' -e s'/-/ /g' | gawk '{print $1}')" >> PKGBUILD
@@ -3275,10 +3275,10 @@ if [[ $pseudo != set ]]; then
 		echo "source_i686=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
 		echo "source_x86_64=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
 	else
-		echo "source=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+		echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
 	fi
 else
-	echo "source=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+	echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
 fi
 if [[ $pseudo != set ]]; then
 	if [[ $(grep -q '^arch = i686$' .PKGINFO; echo $?) == 0 ]]; then
@@ -3293,11 +3293,11 @@ if [[ $pseudo != set ]]; then
 else
 	echo "sha512sums=('$(sha512sum "$package_with_full_path" | gawk '{print $1}')')" >> PKGBUILD
 fi
-echo -e "\npackage(){\n\n	# Extract package data" >> PKGBUILD
+echo -e "\npackage(){\n\n	# Extract package data\n	ar vx iicalc-\$pkgver.deb" >> PKGBUILD
 if [[ $data_tar_check == data.tar.gz ]]; then
     echo "	tar xzf data.tar.gz -C \"\${pkgdir}\"" >> PKGBUILD
 elif [[ $data_tar_check == data.tar.xz ]]; then
-    echo "	tar xf data.tar.xz -C \"\${pkgdir}\"" >> PKGBUILD
+    echo -e "	tar xf data.tar.xz -C \"\${pkgdir}\"\n	rm debian-binary control.tar.xz data.tar.xz" >> PKGBUILD
 elif [[ $data_tar_check == data.tar.bz2 ]]; then
     echo "	tar xf data.tar.bz2 -C \"\${pkgdir}\"" >> PKGBUILD
 elif [[ $data_tar_check == data.tar.lzma ]]; then
