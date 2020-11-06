@@ -3225,6 +3225,8 @@ if [[ $(grep -q '^optdepend =' .PKGINFO; echo $?) == 0 ]]; then
 		for i in $(grep '^optdepend =' .PKGINFO | gawk '{print $3}'); do echo "            '$i'"; done | sed -e "1 s/^            /optdepends=(/" -e "$ s/'$/')/" >> PKGBUILD
 	fi
 fi
+echo "optdepends=(\"dialog: GUI elements\")" >> PKGBUILD
+echo "makedepends=(\"binutils\" \"tar\")" >> PKGBUILD
 if [[ $(grep -q '^provides =' .PKGINFO; echo $?) == 0 ]]; then
 	if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]] && [[ $(echo $(grep '^provides =' .PKGINFO | gawk '{print $3}')) != $(echo $(grep '^provides =' .PKGINFO | gawk '{print $3}' | sed s'/^lib32-\|-multilib$//g')) ]]; then
 		if [[ $(grep -q '^arch = i686$' .PKGINFO; echo $?) == 0 ]] || [[ $(grep -q '^arch = x86_64$' .PKGINFO; echo $?) == 0 ]]; then
