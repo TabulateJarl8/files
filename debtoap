@@ -508,7 +508,7 @@ echo "size =" $((`du -sb | tr -d " ."` - `ls -l | grep control | gawk '{print $5
 if [[ $quiet == set ]] || [[ $Quiet == set ]]; then
     echo "license = custom" >> .PKGINFO
 else
-	echo "license = APLG-3.0" >> .PKGINFO
+	echo "license = GPL" >> .PKGINFO
 fi
 
 echo -e "\n${lightgreen}***${NC} ${bold}Creation of .PKGINFO file in progress. It may take a few minutes, please wait...${normal}"
