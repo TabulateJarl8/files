@@ -3191,7 +3191,11 @@ else
 fi
 echo "$(grep '^pkgver =' .PKGINFO | sed -e s'/ //g' -e s'/-/ /g' | gawk '{print $1}')" >> PKGBUILD
 echo "pkgrel=$(grep '^pkgver =' .PKGINFO | sed -e s'/ //g' -e s'/-/ /g' | gawk '{print $2}')" >> PKGBUILD
-echo "$(grep '^pkgdesc =' .PKGINFO | sed s'/ = /="/')\"" >> PKGBUILD
+if [[ $beta == set ]]; then
+	echo "$(grep '^pkgdesc =' .PKGINFO | sed s'/ = /="/') Development/Beta Channel.\"" >> PKGBUILD
+else
+	echo "$(grep '^pkgdesc =' .PKGINFO | sed s'/ = /="/')\"" >> PKGBUILD
+fi
 if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]]; then
 	if [[ $(grep -q '^arch = i686$' .PKGINFO; echo $?) == 0 ]] || [[ $(grep -q '^arch = x86_64$' .PKGINFO; echo $?) == 0 ]]; then
 		echo "arch=('i686' 'x86_64')" >> PKGBUILD
