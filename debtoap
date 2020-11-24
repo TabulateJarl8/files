@@ -28,32 +28,35 @@ normal=`tput sgr0`
 
 # Options, help, database update and error messages
 for i in "$@"; do
-	if [[ "$i" =~ ^-([huqQswpPv]*)h([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--help$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)h([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--help$ ]]; then
 		help=set
 	fi
-	if [[ "$i" =~ ^-([huqQswpPv]*)u([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--update$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)u([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--update$ ]]; then
 		update=set
 	fi
-	if [[ "$i" =~ ^-([huqQswpPv]*)q([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--quiet$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)q([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--quiet$ ]]; then
 		quiet=set
 	fi
-	if [[ "$i" =~ ^-([huqQswpPv]*)Q([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--Quiet$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)Q([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--Quiet$ ]]; then
 		Quiet=set
 	fi
-	if [[ "$i" =~ ^-([huqQswpPv]*)s([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--pseudo$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)s([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--pseudo$ ]]; then
 		pseudo=set
 	fi
-	if [[ "$i" =~ ^-([huqQswpPv]*)w([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--wipeout$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)w([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--wipeout$ ]]; then
 		wipeout=set
 	fi
-	if [[ "$i" =~ ^-([huqQswpPv]*)p([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--pkgbuild$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)p([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--pkgbuild$ ]]; then
 		pkgbuild=set
 	fi
-	if [[ "$i" =~ ^-([huqQswpPv]*)P([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--Pkgbuild$ ]]; then
+	if [[ "$i" =~ ^-([huqQswpPvb]*)P([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--Pkgbuild$ ]]; then
 		Pkgbuild=set
 	fi
- 	if [[ "$i" =~ ^-([huqQswpPv]*)v([huqQswpPv]*)$ ]] || [[ "$i" =~ ^--version$ ]]; then
+ 	if [[ "$i" =~ ^-([huqQswpPvb]*)v([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--version$ ]]; then
 		version=set
+	fi
+	if [[ "$i" =~ ^-([huqQswpPvb]*)b([huqQswpPvb]*)$ ]] || [[ "$i" =~ ^--beta$ ]]; then
+		beta=set
 	fi
 done
 if [[ $pseudo == set ]] && [[ ! -e /var/lib/pacman/sync/multilib.db ]] && [[ ! -e /var/lib/pacman/sync/multilib-testing.db ]]; then
@@ -3237,15 +3240,20 @@ if [[ $(grep -q '^provides =' .PKGINFO; echo $?) == 0 ]]; then
 		echo "provides=('$(echo $(grep '^provides =' .PKGINFO | gawk '{print $3}') | sed s"/ /' '/g")')" >> PKGBUILD
 	fi
 fi
-if [[ $(grep -q '^conflicts =' .PKGINFO; echo $?) == 0 ]]; then
-	if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]] && [[ $(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}')) != $(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}' | sed s'/^lib32-\|-multilib$//g')) ]]; then
-		if [[ $(grep -q '^arch = i686$' .PKGINFO; echo $?) == 0 ]] || [[ $(grep -q '^arch = x86_64$' .PKGINFO; echo $?) == 0 ]]; then
-			echo "conflicts_i686=('$(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}' | sed s'/^lib32-\|-multilib$//g') | sed s"/ /' '/g")')" >> PKGBUILD
-			echo "conflicts_x86_64=('$(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}') | sed s"/ /' '/g")')" >> PKGBUILD
-		fi
-	else
-		echo "conflicts=('$(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}') | sed s"/ /' '/g")')" >> PKGBUILD
-	fi
+# if [[ $(grep -q '^conflicts =' .PKGINFO; echo $?) == 0 ]]; then
+# 	if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]] && [[ $(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}')) != $(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}' | sed s'/^lib32-\|-multilib$//g')) ]]; then
+# 		if [[ $(grep -q '^arch = i686$' .PKGINFO; echo $?) == 0 ]] || [[ $(grep -q '^arch = x86_64$' .PKGINFO; echo $?) == 0 ]]; then
+# 			echo "conflicts_i686=('$(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}' | sed s'/^lib32-\|-multilib$//g') | sed s"/ /' '/g")')" >> PKGBUILD
+# 			echo "conflicts_x86_64=('$(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}') | sed s"/ /' '/g")')" >> PKGBUILD
+# 		fi
+# 	else
+# 		echo "conflicts=('$(echo $(grep '^conflicts =' .PKGINFO | gawk '{print $3}') | sed s"/ /' '/g")')" >> PKGBUILD
+# 	fi
+# fi
+if [[ $beta == set ]]; then
+	echo "conflicts=(\"iicalc\")" >> PKGBUILD
+else
+	echo "conflicts=(\"iicalc-beta\")" >> PKGBUILD
 fi
 if [[ $(grep -q '^replaces =' .PKGINFO; echo $?) == 0 ]]; then
 	if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]] && [[ $(echo $(grep '^replaces =' .PKGINFO | gawk '{print $3}')) != $(echo $(grep '^replaces =' .PKGINFO | gawk '{print $3}' | sed s'/^lib32-\|-multilib$//g')) ]]; then
