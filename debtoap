@@ -3217,7 +3217,8 @@ if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pk
 else
 	echo "arch=('x86_64')" >> PKGBUILD
 fi
-echo "$(grep '^url =' .PKGINFO | sed s'/ //g' | sed s'/=/="/')\"" >> PKGBUILD
+#echo "$(grep '^url =' .PKGINFO | sed s'/ //g' | sed s'/=/="/')\"" >> PKGBUILD
+echo "url=\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator\"" >> PKGBUILD
 echo "license=('$(echo $(grep '^license =' .PKGINFO | gawk '{print $3}') | sed s"/ /' '/g")')" >> PKGBUILD
 echo "groups=('')" >> PKGBUILD
 if [[ $(grep -q '^pkgname = lib32-' .PKGINFO; echo $?) != 0 ]] && [[ $(grep '^pkgname =' .PKGINFO | grep -q -- '-multilib$'; echo $?) != 0 ]] && [[ $(grep -q '^depend =' .PKGINFO; echo $?) == 0 ]]; then
