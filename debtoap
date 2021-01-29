@@ -3294,13 +3294,26 @@ if [[ -e .INSTALL ]]; then
 fi
 if [[ $pseudo != set ]]; then
 	if [[ $(grep -q '^arch = i686$' .PKGINFO; echo $?) == 0 ]] || [[ $(grep -q '^arch = x86_64$' .PKGINFO; echo $?) == 0 ]]; then
-		echo "source_i686=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
-		echo "source_x86_64=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+		if [[ $beta == set ]]; then
+			echo "source_i686=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+			echo "source_x86_64=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+		else
+			echo "source_i686=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/master/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+			echo "source_x86_64=(\"https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/master/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+		fi
 	else
-		echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+		if [[ $beta == set ]]; then
+			echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+		else
+			echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/master/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+		fi
 	fi
 else
-	echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+	if [[ $beta == set ]]; then
+		echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/development/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+	else
+		echo "source=(\"iicalc-\$pkgver.deb::https://gitlab.com/TurboWafflz/ImaginaryInfinity-Calculator/-/jobs/artifacts/master/raw/iicalc.deb?job=debian%20packager\")" >> PKGBUILD
+	fi
 fi
 if [[ $pseudo != set ]]; then
 	if [[ $(grep -q '^arch = i686$' .PKGINFO; echo $?) == 0 ]]; then
