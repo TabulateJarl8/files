@@ -1,0 +1,17 @@
+[theme]
+name = TheFunnyTheme
+description = The funniest of the themes (please help)
+ansi = true
+
+[styles]
+normal = \u001b[38;2;255;100;217m\u001b[48;2;0;83;0m
+error = \u001b[38;2;51;72;0m\u001b[48;2;52;131;217m
+warning = \u001b[38;2;217;217;123m\u001b[48;2;255;255;255m
+important = \u001b[0m\u001b[38;2;217;0;0m
+startupmessage = \u001b[0m\u001b[38;2;0;217;217m
+prompt = \u001b[38;2;163;94;59m\u001b[48;2;217;217;255m
+link = \u001b[38;2;0;0;217m\u001b[48;2;222;255;255m
+answer = \u001b[38;2;0;0;0m\u001b[48;2;255;255;255m
+input = \u001b[38;2;255;255;255m\u001b[48;2;0;0;0m
+output = \u001b[38;2;222;255;217m\u001b[48;2;255;255;241m
+
